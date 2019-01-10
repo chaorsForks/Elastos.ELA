@@ -19,10 +19,6 @@ import (
 	. "github.com/elastos/Elastos.ELA.Utility/common"
 )
 
-const (
-	AUXBLOCK_GENERATED_INTERVAL_SECONDS = 5
-)
-
 var ServerNode Noder
 var LocalPow *pow.PowService
 
@@ -252,18 +248,18 @@ func CreateAuxBlock(param Params) map[string]interface{} {
 	}
 
 	if ServerNode.Height() == 0 || preChainHeight != ServerNode.Height() ||
-		time.Now().Unix()-preTime > AUXBLOCK_GENERATED_INTERVAL_SECONDS {
-
-		if preChainHeight != ServerNode.Height() {
-			// Clear old blocks since they're obsolete now.
-			currentAuxBlock = nil
-			LocalPow.AuxBlockPool.ClearBlock()
-		}
+		!LocalPow.CheckAndChangeGenerating() {
 
 		// Create new block with nonce = 0
 		auxBlock, err := LocalPow.GenerateBlock(config.Parameters.PowConfiguration.PayToAddr)
 		if nil != err {
 			return ResponsePack(InternalError, "generate block failed")
+		}
+
+		if preChainHeight != ServerNode.Height() {
+			// Clear old blocks since they're obsolete now.
+			currentAuxBlock = nil
+			LocalPow.AuxBlockPool.ClearBlock()
 		}
 
 		// Update state only when CreateNewBlock succeeded

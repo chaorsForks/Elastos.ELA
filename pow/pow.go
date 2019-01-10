@@ -59,6 +59,7 @@ func (auxpool *auxBlockPool) GetBlock(hash common.Uint256) (*Block, bool) {
 }
 
 type PowService struct {
+	Generating     bool
 	PayToAddr      string
 	Started        bool
 	discreteMining bool
@@ -70,6 +71,17 @@ type PowService struct {
 
 	wg   sync.WaitGroup
 	quit chan struct{}
+}
+
+func (pow *PowService) CheckAndChangeGenerating() bool {
+	pow.Mutex.Lock()
+	defer pow.Mutex.Unlock()
+	if !pow.Generating {
+		pow.Generating = true
+		return false
+	} else {
+		return true
+	}
 }
 
 func (pow *PowService) CreateCoinbaseTx(nextBlockHeight uint32, minerAddr string) (*Transaction, error) {
