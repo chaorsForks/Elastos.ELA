@@ -87,6 +87,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 
 	//read the body of the request
 	body, _ := ioutil.ReadAll(r.Body)
+	r.Body.Close()
 	request := make(map[string]interface{})
 	error := json.Unmarshal(body, &request)
 	if error != nil {
