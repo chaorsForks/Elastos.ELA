@@ -28,17 +28,12 @@ const (
 	// SFTxFiltering is a flag used to indicate a peer supports transaction
 	// filtering.
 	SFTxFiltering
-
-	// SFNodeOpen is a flag used to indicate a peer supports open service by
-	// open port.
-	SFNodeOpen
 )
 
 // Map of service flags back to their constant names for pretty printing.
 var sfStrings = map[ServiceFlag]string{
 	SFNodeNetwork: "SFNodeNetwork",
 	SFTxFiltering: "SFTxFiltering",
-	SFNodeOpen:    "SFNodeOpen",
 }
 
 // orderedSFStrings is an ordered list of service flags from highest to
@@ -46,7 +41,6 @@ var sfStrings = map[ServiceFlag]string{
 var orderedSFStrings = []ServiceFlag{
 	SFNodeNetwork,
 	SFTxFiltering,
-	SFNodeOpen,
 }
 
 // String returns the ServiceFlag in human-readable form.
