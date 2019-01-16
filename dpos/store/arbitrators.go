@@ -324,7 +324,6 @@ func NewArbitrators(cfg *ArbitratorsConfig) (*Arbitrators, error) {
 		minSignCount := float64(config.Parameters.ArbiterConfiguration.NormalArbitratorsCount) * DposMajorityRatioNumerator / DposMajorityRatioDenominator
 		cfg.MajorityCount = uint32(minSignCount)
 	}
-
 	if cfg.MajorityCount > cfg.ArbitratorsCount {
 		return nil, fmt.Errorf("majority count should less or equal than arbitrators count")
 	}

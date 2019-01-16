@@ -160,7 +160,6 @@ func (a *AddrManager) updateAddress(netAddr, srcAddr *p2p.NetAddress) {
 	if !IsRoutable(netAddr) {
 		return
 	}
-
 	addr := NetAddressKey(netAddr)
 	ka := a.find(netAddr)
 	if ka != nil {
@@ -197,6 +196,7 @@ func (a *AddrManager) updateAddress(netAddr, srcAddr *p2p.NetAddress) {
 			return
 		}
 	} else {
+		log.Info("known address add:", addr)
 		// Make a copy of the net address to avoid races since it is
 		// updated elsewhere in the addrmanager code and would otherwise
 		// change the actual netaddress on the peer.
@@ -338,7 +338,6 @@ out:
 // savePeers saves all the known addresses to a file so they can be read back
 // in at next run.
 func (a *AddrManager) savePeers() {
-	fmt.Println("!!!!!!!!!!!!!!!!")
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
 
@@ -349,7 +348,6 @@ func (a *AddrManager) savePeers() {
 	copy(sam.Key[:], a.key[:])
 
 	sam.Addresses = make([]*serializedKnownAddress, len(a.addrIndex))
-	fmt.Println("a.addrIndex:", a.addrIndex)
 	i := 0
 	for k, v := range a.addrIndex {
 		ska := new(serializedKnownAddress)

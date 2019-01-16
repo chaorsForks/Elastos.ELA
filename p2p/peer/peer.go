@@ -433,6 +433,7 @@ func (p *Peer) PushAddrMsg(addresses []*p2p.NetAddress) ([]*p2p.NetAddress, erro
 
 // handlePingMsg is invoked when a peer receives a ping message.
 func (p *Peer) handlePingMsg(ping *msg.Ping) {
+	log.Debug("ping peer:", p.addr, "height:", ping.Nonce)
 	// Update peer height when height has changed.
 	p.statsMtx.Lock()
 	newHeight := uint32(ping.Nonce)
@@ -445,6 +446,7 @@ func (p *Peer) handlePingMsg(ping *msg.Ping) {
 
 // handlePongMsg is invoked when a peer receives a pong message.
 func (p *Peer) handlePongMsg(pong *msg.Pong) {
+	log.Debug("pong peer:", p.addr, "height:", pong.Nonce)
 	p.statsMtx.Lock()
 	p.height = uint32(pong.Nonce)
 	p.lastPingMicros = time.Since(p.lastPingTime).Nanoseconds()
