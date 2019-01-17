@@ -1214,6 +1214,10 @@ func newServer(origCfg *Config) (*server, error) {
 		if err != nil {
 			return nil, err
 		}
+		err = amgr.AddAddressByIP(netAddr.String())
+		if err != nil {
+			return nil, err
+		}
 
 		go s.connManager.Connect(&connmgr.ConnReq{
 			Addr:      netAddr,

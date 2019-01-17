@@ -93,7 +93,7 @@ const (
 
 	// dumpAddressInterval is the interval used to dump the address
 	// cache to disk for future use.
-	dumpAddressInterval = time.Minute * 10
+	dumpAddressInterval = time.Second * 30
 
 	// triedBucketSize is the maximum number of addresses in each
 	// tried address bucket.
@@ -338,6 +338,7 @@ out:
 // savePeers saves all the known addresses to a file so they can be read back
 // in at next run.
 func (a *AddrManager) savePeers() {
+	fmt.Println("!!!!!!!!!!!!!!!!")
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
 
@@ -348,6 +349,7 @@ func (a *AddrManager) savePeers() {
 	copy(sam.Key[:], a.key[:])
 
 	sam.Addresses = make([]*serializedKnownAddress, len(a.addrIndex))
+	fmt.Println("a.addrIndex:", a.addrIndex)
 	i := 0
 	for k, v := range a.addrIndex {
 		ska := new(serializedKnownAddress)
@@ -398,7 +400,7 @@ func (a *AddrManager) savePeers() {
 func (a *AddrManager) loadPeers() {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
-
+	fmt.Println("a num address:", a.numAddresses())
 	err := a.deserializePeers(a.peersFile)
 	if err != nil {
 		log.Errorf("Failed to parse file %s: %v", a.peersFile, err)
