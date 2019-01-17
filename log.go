@@ -106,8 +106,8 @@ var (
 	logger = log.NewDefault(cfg.PrintLevel, cfg.MaxPerLogSize, cfg.MaxLogsSize)
 	level  = elalog.Level(cfg.PrintLevel)
 
-	admrlog = wrap(logger, elalog.LevelOff)
-	cmgrlog = wrap(logger, elalog.LevelOff)
+	admrlog = wrap(logger, level)
+	cmgrlog = wrap(logger, level)
 	synclog = wrap(logger, level)
 	peerlog = wrap(logger, level)
 	elanlog = wrap(logger, level)

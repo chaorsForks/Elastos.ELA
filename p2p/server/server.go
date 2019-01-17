@@ -732,6 +732,16 @@ func (s *server) peerHandler() {
 	}
 
 	go s.connManager.Start()
+	go func() {
+		for {
+			log.Info("<============ peers ===========>")
+			state.forAllPeers(
+				func(sp *serverPeer) {
+					log.Info("connected peer:", sp.String(), "height:", sp.Height())
+				})
+			time.Sleep(6 * time.Second)
+		}
+	}()
 
 out:
 	for {
