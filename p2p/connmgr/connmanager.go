@@ -398,6 +398,8 @@ func (cm *ConnManager) NewConnReq() {
 // Connect assigns an id and dials a connection to the address of the
 // connection request.
 func (cm *ConnManager) Connect(c *ConnReq) {
+
+	log.Info("connect:", c.Addr.String())
 	if atomic.LoadInt32(&cm.stop) != 0 {
 		return
 	}

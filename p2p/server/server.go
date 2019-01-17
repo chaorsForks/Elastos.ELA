@@ -687,6 +687,7 @@ func (s *server) inboundPeerConnected(conn net.Conn) {
 // manager of the attempt.
 func (s *server) outboundPeerConnected(c *connmgr.ConnReq, conn net.Conn) {
 	sp := newServerPeer(s, c.Permanent)
+	log.Info("out bound peer connected:", c.Addr.String())
 	p, err := peer.NewOutboundPeer(newPeerConfig(sp), c.Addr.String())
 	if err != nil {
 		log.Debugf("Cannot create outbound peer %s: %v", c.Addr, err)
