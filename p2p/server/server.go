@@ -731,6 +731,11 @@ func (s *server) peerHandler() {
 		outboundGroups:  make(map[string]int),
 	}
 
+	// Add seed peers to the address manager.
+	for _, ip := range s.cfg.SeedPeers {
+		s.addrManager.AddAddressByIP(ip)
+	}
+
 	go s.connManager.Start()
 	go func() {
 		for {
